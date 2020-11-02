@@ -2,6 +2,7 @@ package org.bridegelabz.payrollservice;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 
 	public class EmployeePayrollService {
@@ -37,6 +38,10 @@ import java.util.List;
 		}
 		public List<EmployeePayrollData> getEmployeePayrollDataByStartDate(LocalDate startDate, LocalDate endDate)throws EmployeePayrollJDBCException {
 			return this.payrollServiceDB.getEmployeePayrollDataByStartingDate(startDate, endDate);
+		}
+
+		public Map<String, Double> performOperationByGender(String column,String operation) throws EmployeePayrollJDBCException {
+			return this.payrollServiceDB.performAverageAndMinAndMaxOperations(column,operation);
 		}
 	}
 	

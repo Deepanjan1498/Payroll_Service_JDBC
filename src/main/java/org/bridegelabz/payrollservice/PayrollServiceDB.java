@@ -10,7 +10,9 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PayrollServiceDB {
 	private static PayrollServiceDB employeePayrollServiceDB;
@@ -62,9 +64,10 @@ public class PayrollServiceDB {
    			while (resultSet.next()) {
    				int id = resultSet.getInt("id");
    				String objectname = resultSet.getString("name");
+   				String gender = resultSet.getString("gender");
    				double salary = resultSet.getDouble("salary");
    				LocalDate startDate = resultSet.getDate("start").toLocalDate();
-   				employeePayrollList.add(new EmployeePayrollData(id, objectname, salary,startDate));
+   				employeePayrollList.add(new EmployeePayrollData(id, objectname,gender,salary,startDate));
    			}
    		return employeePayrollList;
        }catch (SQLException e) {
@@ -138,6 +141,22 @@ public class PayrollServiceDB {
 		} catch (SQLException e) {
 			throw new EmployeePayrollJDBCException("Connection Failed.");
 		}
+	}
+	public Map<String, Double> performAverageAndMinAndMaxOperations(String column, String operation) throws EmployeePayrollJDBCException{
+		String sql=String.format("SELECT gender , %s(%s) FROM employee_payroll GROUP BY gender;" , operation , column);
+		Map<String,Double> mapValues = new HashMap<>();
+		try(Connection connection = this.getConnection()) {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next())
+			{
+				mapValues.put(resultSet.getString(1), resultSet.getDouble(2));
+			}
+		}
+		catch (SQLException e) {
+			throw new EmployeePayrollJDBCException("Connection Failed.");
+		}
+		return mapValues;
 	}
 }
 

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,5 +49,12 @@ public class EmployeePayrollServiceTest {
 						.getEmployeePayrollDataByStartDate(startDate, endDate);
 				Assert.assertEquals(matchingRecords.get(0),employeePayrollService.getEmployeePayrollData("Bill"));
 		}
+	    @Test
+	    public void givenEmployee_PerformedVariousOperations_ShouldGiveResult() throws EmployeePayrollJDBCException {
+			EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+			employeePayrollService.readEmployeePayrollData();
+			Map<String, Double> averageSalaryByGender=employeePayrollService.performOperationByGender("salary","MAX");
+			assertEquals(3000000.0,averageSalaryByGender.get("F"), 0.0);
 	}
+}
 
