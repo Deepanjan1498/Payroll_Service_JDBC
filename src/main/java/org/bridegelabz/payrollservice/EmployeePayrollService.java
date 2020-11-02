@@ -17,7 +17,7 @@ import java.util.List;
 		}
 		public void updateEmployeeSalary(String name,double salary) throws EmployeePayrollJDBCException
 		{
-			int result=new PayrollServiceDB().updateEmployeeDataUsingStatement(name,salary);
+			int result=new PayrollServiceDB().updateEmployeePayrollDataUsingPreparedStatement(name,salary);
 			if(result==0)
 				return;
 			EmployeePayrollData employeePayrollData=this.getEmployeePayrollData(name);
