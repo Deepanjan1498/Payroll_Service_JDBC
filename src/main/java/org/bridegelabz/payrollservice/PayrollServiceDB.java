@@ -15,7 +15,7 @@ import java.util.List;
 public class PayrollServiceDB {
 	private static PayrollServiceDB employeePayrollServiceDB;
 	private PreparedStatement preparedStatementForUpdation;
-	private PreparedStatement employeePayrollDataStatement;;
+	private PreparedStatement employeePayrollDataStatement;
 	public PayrollServiceDB() {}
 
 	public static PayrollServiceDB getInstance() {
@@ -121,10 +121,22 @@ public class PayrollServiceDB {
 	private void prepareStatementForEmployeePayrollDataRetrieval() throws EmployeePayrollJDBCException {
 		try {
 			Connection connection = this.getConnection();
-			String sql = "select * from employee_payroll where name=?";
+			String sql = "SELECT * FROM employee_payroll WHERE name=?";
 			this.employeePayrollDataStatement = connection.prepareStatement(sql);
 		} catch (SQLException e) {
 			throw new EmployeePayrollJDBCException("Unable to create prepare statement");
+		}
+	}
+	public List<EmployeePayrollData> getEmployeePayrollDataByStartingDate(LocalDate startDate, LocalDate endDate)
+			throws EmployeePayrollJDBCException {
+		String sql = String.format("SELECT * FROM employee_payroll WHERE start BETWEEN cast('%s' as date) and cast('%s' as date);",
+				startDate.toString(), endDate.toString());
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			return this.getEmployeePayrollListFromResultset(resultSet);
+		} catch (SQLException e) {
+			throw new EmployeePayrollJDBCException("Connection Failed.");
 		}
 	}
 }

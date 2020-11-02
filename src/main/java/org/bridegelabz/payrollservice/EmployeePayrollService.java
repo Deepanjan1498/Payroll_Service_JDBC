@@ -1,5 +1,6 @@
 package org.bridegelabz.payrollservice;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ import java.util.List;
 			if(employeePayrollData !=null) employeePayrollData.setSalary(salary);
 		}
 
-		private EmployeePayrollData getEmployeePayrollData(String name) {
+		public EmployeePayrollData getEmployeePayrollData(String name) {
 			return this.employeePayrollList.stream()
 					.filter(employeePayrollObject->employeePayrollObject.getName().equals(name))
 					.findFirst().orElse(null);
@@ -33,6 +34,9 @@ import java.util.List;
 		public boolean checkEmployeePayrollInSyncWithDB(String name) throws EmployeePayrollJDBCException {
 			List<EmployeePayrollData> employeePayrollDataList=new PayrollServiceDB().getEmployeePayrollDataFromDB(name);
 			return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
+		}
+		public List<EmployeePayrollData> getEmployeePayrollDataByStartDate(LocalDate startDate, LocalDate endDate)throws EmployeePayrollJDBCException {
+			return this.payrollServiceDB.getEmployeePayrollDataByStartingDate(startDate, endDate);
 		}
 	}
 	
