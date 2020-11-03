@@ -43,6 +43,10 @@ import java.util.Map;
 		public Map<String, Double> performOperationByGender(String column,String operation) throws EmployeePayrollJDBCException {
 			return this.payrollServiceDB.performAverageAndMinAndMaxOperations(column,operation);
 		}
+		public void addEmployeeToPayroll(String name, String gender, double salary, LocalDate startDate) throws EmployeePayrollJDBCException {
+			employeePayrollList.add(payrollServiceDB.addEmployeeToPayroll(name,gender,salary,startDate));
+			
+		}
 	}
 	
 	
