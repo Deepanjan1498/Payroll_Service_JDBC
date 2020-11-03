@@ -57,6 +57,14 @@ public class EmployeePayrollServiceTest {
 			assertEquals(3000000.0,averageSalaryByGender.get("F"), 0.0);
 	}
 	    @Test
+	    public void givenNewEmployeeForUC7_WhenAdded_ShouldSyncWithDB() throws EmployeePayrollJDBCException {
+	    	EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+	    	employeePayrollService.readEmployeePayrollData();
+	    	employeePayrollService.addEmployeeToPayrollUC7("Mark","M", 5000000.00, LocalDate.now());
+	        boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
+	        Assert.assertTrue(result);
+	    }
+	    @Test
 	    public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws EmployeePayrollJDBCException {
 	    	EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 	    	employeePayrollService.readEmployeePayrollData();
