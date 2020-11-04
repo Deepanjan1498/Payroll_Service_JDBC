@@ -10,17 +10,20 @@ public class EmployeePayrollData {
 	String gender;
 	private String company_name;
 	private String department[];
+	private int department_id[];
 	private double salary;
 	private LocalDate startDate;
 	
+
 	public EmployeePayrollData(int id, String name, String gender, String company_name, String[] department,
-			double salary, LocalDate startDate) {
+			int[] department_id, double salary, LocalDate startDate) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.gender = gender;
 		this.company_name = company_name;
 		this.department = department;
+		this.department_id = department_id;
 		this.salary = salary;
 		this.startDate = startDate;
 	}
