@@ -1,16 +1,29 @@
 package org.bridegelabz.payrollservice;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class EmployeePayrollData {
 
 	private int id;
 	private String name;
 	String gender;
+	private String company_name;
+	private String department[];
 	private double salary;
 	private LocalDate startDate;
 	
-	
+	public EmployeePayrollData(int id, String name, String gender, String company_name, String[] department,
+			double salary, LocalDate startDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.company_name = company_name;
+		this.department = department;
+		this.salary = salary;
+		this.startDate = startDate;
+	}
 	public EmployeePayrollData(Integer id,String name,String gender,Double salary) {
 		this.id=id;
 		this.name=name;
@@ -22,12 +35,18 @@ public class EmployeePayrollData {
 		this.startDate=startDate;
 	}
 
+	public EmployeePayrollData(int id, String name, double salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+	}
 	@Override
 	public String toString() {
-		return "EmployeePayrollData [id=" + id + ", name=" + name + ", gender=" + gender + ", salary=" + salary
-				+ ", startDate=" + startDate + "]";
+		return "EmployeePayrollData [id=" + id + ", name=" + name + ", gender=" + gender + ", company_name="
+				+ company_name + ", department=" + Arrays.toString(department) + ", salary=" + salary + ", startDate="
+				+ startDate + "]";
 	}
-	
 	public int getId() {
 		return id;
 	}
@@ -80,4 +99,5 @@ public class EmployeePayrollData {
 			return false;
 		return true;
 	}
+	
 }

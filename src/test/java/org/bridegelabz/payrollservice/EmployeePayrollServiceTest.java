@@ -2,6 +2,7 @@ package org.bridegelabz.payrollservice;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,20 @@ public class EmployeePayrollServiceTest {
 	    	employeePayrollService.addEmployeeToPayroll("Mark","M", 5000000.00, LocalDate.now());
 	        boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
 	        Assert.assertTrue(result);
+	    }
+	    @Test
+	    public void givennewEmployeeDetails_addItInEveryTableToCompleteERDiagram_ShouldGiveResult() throws EmployeePayrollJDBCException{
+	    	EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+			employeePayrollService.readEmployeePayrollData();
+			Date date = Date.valueOf("2020-11-01");
+			boolean result;
+			String[] departments = {"SalesAndBusiness", "Marketing"};
+			int[] dept_id = {01, 02};
+			EmployeePayrollData employeePayrollData = employeePayrollService.addNewEmployee
+						(101, "Sandeep", "M", "7896541235", "Bhopal", date, 6000000,
+								"DBS", 11, departments, dept_id );
+			boolean results=employeePayrollService.checkEmployeePayrollInSyncWithDB("Sandeep");
+			Assert.assertTrue(results);
 	    }
 }
 
