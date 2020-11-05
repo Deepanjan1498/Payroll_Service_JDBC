@@ -216,14 +216,14 @@ public class PayrollServiceDB {
 				if (resultSet.next())
 					employeeId = resultSet.getInt(1);
 			}
+			employeePayrollData = new EmployeePayrollData(employeeId, name,gender,salary, startDate);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			try {
 				connection.rollback();
-				return employeePayrollData;
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new EmployeePayrollJDBCException("Could not Add Employee");
 		}
 		try (Statement statement = connection.createStatement()) {
 			double deductions = salary * 0.2;
@@ -244,6 +244,7 @@ public class PayrollServiceDB {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new EmployeePayrollJDBCException("Not Able to add");
 		}
 		try {
 			connection.commit();
@@ -380,5 +381,14 @@ public class PayrollServiceDB {
 				}
 		}
 		return employeePayrollData;
+	}
+	public void deleteEmployee(String name) throws EmployeePayrollJDBCException {
+		String sql = String.format("DELETE FROM employee WHERE name=%s", name);
+		Connection connection = this.getConnection();
+		try {
+			Statement statement = connection.createStatement();
+			statement.execute(sql);
+		} catch (SQLException e) {
+		}
 	}
 }

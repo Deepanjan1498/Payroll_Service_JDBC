@@ -61,6 +61,11 @@ import java.util.Map;
 			return PayrollServiceDB.getInstance().addNewEmployee
 									(id, name, gender, phone_no, address, date, salary, comp_name, comp_id, department, dept_id);
 		}
+		public void deleteEmployee(String name) throws EmployeePayrollJDBCException {
+			if (!this.checkEmployeePayrollInSyncWithDB(name))
+				throw new EmployeePayrollJDBCException("employee absent");
+			PayrollServiceDB.getInstance().deleteEmployee(name);
+		}
 
 }
 	
