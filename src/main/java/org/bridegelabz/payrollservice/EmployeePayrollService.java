@@ -53,10 +53,6 @@ import java.util.Map;
 			employeePayrollList.add(payrollServiceDB.addEmployeeToPayroll(name,gender,salary,startDate));
 			
 		}
-		public void addEmployeeToPayrollWithThreads(List<EmployeePayrollData> employeePayrollDataList)
-		{
-			Map<Integer,Boolean> employeeAddditionStatus=new HashMap<>();
-		}
 		public EmployeePayrollData addNewEmployee(int id, String name, String gender, String phone_no, String address,Date date, double salary, String comp_name, int comp_id, String[] department, int[] dept_id) throws EmployeePayrollJDBCException{
 			return PayrollServiceDB.getInstance().addNewEmployee
 									(id, name, gender, phone_no, address, date, salary, comp_name, comp_id, department, dept_id);
@@ -66,6 +62,23 @@ import java.util.Map;
 				throw new EmployeePayrollJDBCException("employee absent");
 			PayrollServiceDB.getInstance().deleteEmployee(name);
 		}
+		public void addEmployeesToPayroll(List<EmployeePayrollData> employeePayrollDataList) throws EmployeePayrollJDBCException{
+			employeePayrollDataList.forEach(employeePayrollData->{
+				System.out.println("Employee Being Added:"+employeePayrollData.getName());
+				try {
+					this.addEmployeeToPayroll(employeePayrollData.getName(),employeePayrollData.getGender(),employeePayrollData.getSalary(),employeePayrollData.getStartDate());
+				} catch (EmployeePayrollJDBCException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Employee Added:"+employeePayrollData.getName());
+			});
+			System.out.println(this.employeePayrollList);
+		}
 
+		public int countEntries() {
+			return employeePayrollList.size();
+		}
+		
 }
 	

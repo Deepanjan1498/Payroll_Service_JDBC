@@ -2,6 +2,7 @@ package org.bridegelabz.payrollservice;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class EmployeePayrollData {
 
@@ -80,6 +81,7 @@ public class EmployeePayrollData {
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -3,7 +3,9 @@ package org.bridegelabz.payrollservice;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +96,24 @@ public class EmployeePayrollServiceTest {
 				boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Sandeep");
 				assertFalse(result);
 		}
+	    @Test
+	    public void given6Employeess_WhenAddedToDB_ShouldMatchEmployeeEntries() throws EmployeePayrollJDBCException{
+	    	EmployeePayrollData[] aarayOfEmps= {
+	    			new EmployeePayrollData(0,"Jeff Bezos", "M", 100000.0, LocalDate.now()),
+	    			new EmployeePayrollData(0,"Bill Gates", "M", 1500000.0, LocalDate.now()),
+	    			new EmployeePayrollData(0,"Mark Zuckerberg", "M", 1200000.0, LocalDate.now()),
+	    			new EmployeePayrollData(0,"Suresh", "M", 900000.0, LocalDate.now()),
+	    			new EmployeePayrollData(0,"Mukesh", "M", 700000.0, LocalDate.now()),
+	    			new EmployeePayrollData(0,"Anil", "M", 800000.0, LocalDate.now()),
+	    	};
+	    	EmployeePayrollService employeePayrollService=new EmployeePayrollService();
+	    	employeePayrollService.readEmployeePayrollData();
+	    	Instant start=Instant.now();
+	    	employeePayrollService.addEmployeesToPayroll(Arrays.asList(aarayOfEmps));
+	    	Instant end=Instant.now();
+	    	System.out.println("Duration Without Thread:"+java.time.Duration.between(start, end));
+	    	Assert.assertEquals(10,employeePayrollService.countEntries());
+	    }
 }
 
 
