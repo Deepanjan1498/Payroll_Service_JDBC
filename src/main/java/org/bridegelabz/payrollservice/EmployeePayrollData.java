@@ -82,6 +82,11 @@ public class EmployeePayrollData {
 		this.startDate = startDate;
 	}
 	
+    @Override
+	public  int hashCode()
+	{
+		return Objects.hash(name,gender,salary,startDate);
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

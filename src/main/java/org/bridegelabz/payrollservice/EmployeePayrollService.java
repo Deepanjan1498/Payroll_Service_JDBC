@@ -75,6 +75,33 @@ import java.util.Map;
 			});
 			System.out.println(this.employeePayrollList);
 		}
+		public void addEmployeesToPayrollWithThreads(List<EmployeePayrollData> employeePayrollDataList) {
+			Map<Integer,Boolean> employeeAdditionStatus=new HashMap<Integer,Boolean>();
+			employeePayrollDataList.forEach(employeePayrollData->
+			{
+				Runnable task=()->{
+					employeeAdditionStatus.put(employeePayrollData.hashCode(),false);
+					System.out.println("Employee Being Added:"+Thread.currentThread().getName());
+					try {
+						this.addEmployeeToPayroll(employeePayrollData.getName(),employeePayrollData.getGender(),employeePayrollData.getSalary(),employeePayrollData.getStartDate());
+					} catch (EmployeePayrollJDBCException e) {
+						e.printStackTrace();
+					}
+					employeeAdditionStatus.put(employeePayrollData.hashCode(),true);
+					System.out.println("Employee Added:"+Thread.currentThread().getName());
+				};
+				Thread thread=new Thread(task,employeePayrollData.getName());
+				thread.start();
+			});
+			while(employeeAdditionStatus.containsValue(false))
+			{
+				try {
+					Thread.sleep(10);
+				}
+				catch(InterruptedException e) {}
+			}
+			System.out.println(this.employeePayrollList);
+		}
 
 		public int countEntries() {
 			return employeePayrollList.size();
