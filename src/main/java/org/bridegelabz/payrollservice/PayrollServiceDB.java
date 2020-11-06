@@ -83,7 +83,7 @@ public class PayrollServiceDB {
 		}
 	}
 
-	public List<EmployeePayrollData> getEmployeePayrollDataFromDB(String name) throws EmployeePayrollJDBCException {
+	public synchronized List<EmployeePayrollData> getEmployeePayrollDataFromDB(String name) throws EmployeePayrollJDBCException {
 		if (this.employeePayrollDataStatement == null) {
 			this.prepareStatementForEmployeePayrollDataRetrieval();
 		}
@@ -108,7 +108,7 @@ public class PayrollServiceDB {
 		}
 	}
 
-	public int updateEmployeePayrollDataUsingPreparedStatement(String name, double salary)
+	public synchronized int updateEmployeePayrollDataUsingPreparedStatement(String name, double salary)
 			throws EmployeePayrollJDBCException {
 		if (this.preparedStatementForUpdation == null) {
 			this.prepareStatementForEmployeePayroll();
