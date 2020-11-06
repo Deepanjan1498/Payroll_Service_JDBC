@@ -21,7 +21,7 @@ import java.util.Map;
 		}
 		public void updateEmployeeSalary(String name,double salary) throws EmployeePayrollJDBCException
 		{
-			int result=new PayrollServiceDB().updateEmployeePayrollDataUsingPreparedStatement(name,salary);
+			int result=new PayrollServiceDB().updateEmployeeDataUsingStatement(name,salary);
 			if(result==0)
 				return;
 			EmployeePayrollData employeePayrollData=this.getEmployeePayrollData(name);
@@ -105,6 +105,32 @@ import java.util.Map;
 
 		public int countEntries() {
 			return employeePayrollList.size();
+		}
+		public void updateEmployeesSalary(List<EmployeeSalaryStructure> employeeNameAndSalaryList) {
+			Map<Integer, Boolean> employeeAdditionStatus = new HashMap<>();
+			employeeNameAndSalaryList.forEach(employeeData ->
+			{
+				Runnable task = () -> {
+					employeeAdditionStatus.put(employeeData.hashCode(), false);
+					System.out.println("Salary being updated "+Thread.currentThread().getName());
+					try {
+						this.updateEmployeeSalary(employeeData.name, employeeData.salary);
+					} catch (EmployeePayrollJDBCException e) {
+						e.printStackTrace();
+					}
+					employeeAdditionStatus.put(employeeData.hashCode(), true);
+					System.out.println("Salary Updated: " + Thread.currentThread().getName());
+				};
+				Thread thread = new Thread(task, employeeData.name);
+				thread.start();
+			}
+					);
+			while(employeeAdditionStatus.containsValue(false)) {
+				try {
+					Thread.sleep(100);
+				} catch(InterruptedException e) {}
+			}
+			System.out.println(this.employeePayrollList);
 		}
 		
 }
