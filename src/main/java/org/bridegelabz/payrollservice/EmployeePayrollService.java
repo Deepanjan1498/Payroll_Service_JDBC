@@ -50,7 +50,7 @@ import java.util.Map;
 			
 		}
 		public void addEmployeeToPayroll(String name, String gender, double salary, LocalDate startDate) throws EmployeePayrollJDBCException {
-			employeePayrollList.add(payrollServiceDB.addEmployeeToPayroll(name,gender,salary,startDate));
+			payrollServiceDB.addEmployeeToPayroll(name,gender,salary,startDate);
 			
 		}
 		public EmployeePayrollData addNewEmployee(int id, String name, String gender, String phone_no, String address,Date date, double salary, String comp_name, int comp_id, String[] department, int[] dept_id) throws EmployeePayrollJDBCException{
