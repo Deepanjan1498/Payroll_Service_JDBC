@@ -167,4 +167,9 @@ public class EmployeePayrollService {
 			employeePayrollData.setSalary(salary);
 	}
 
+	public void deleteEmployeePayrollUsingRestServices(String name) {
+		// TODO Auto-generated method stub
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+		employeePayrollList.remove(employeePayrollData);
+	}
 }
