@@ -188,26 +188,39 @@ public class EmployeePayrollServiceTest {
 		request.body(employeeJson);
 		return request.post("/employees");
 	}
+
+	@Test
+	public void givenMultipleEmployees_WhenAdded_ShouldMatch210ResponseAndCount() {
+		EmployeePayrollService employeePayrollService;
+		EmployeePayrollData[] arrayOfEmployees = getEmployeeList();
+		employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
+		EmployeePayrollData[] arrayOfEmployeePayroll = { new EmployeePayrollData(5, "Sumit", 600000.0),
+				new EmployeePayrollData(6, "Rahul Verma", 800000.0),
+				new EmployeePayrollData(7, "Ayush Tyagi", 900000.0) };
+		for (EmployeePayrollData employeePayrollData : arrayOfEmployeePayroll) {
+			Response response = addEmployeeToJsonServer(employeePayrollData);
+			int HTTPstatusCode = response.getStatusCode();
+			Assert.assertEquals(201, HTTPstatusCode);
+			employeePayrollData = new Gson().fromJson(response.asString(), EmployeePayrollData.class);
+			employeePayrollService.addEmployeeToPayrollUsingRestServices(employeePayrollData);
+		}
+		long entries = employeePayrollService.countRestEntries();
+		Assert.assertEquals(7, entries);
+	}
 	 @Test
-	    public void givenMultipleEmployees_WhenAdded_ShouldMatch210ResponseAndCount()
+	    public void givenSalaryForEmployee_WhenUpdated_ShouldMatch200Response()
 	    {
 	    	EmployeePayrollService employeePayrollService;
 	    	EmployeePayrollData[] arrayOfEmployees=getEmployeeList();
 	    	employeePayrollService=new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
-	    	EmployeePayrollData[] arrayOfEmployeePayroll= {
-	    			new EmployeePayrollData(5,"Sumit",600000.0),
-	    			new EmployeePayrollData(6,"Rahul Verma",800000.0),
-	    			new EmployeePayrollData(7,"Ayush Tyagi",900000.0)
-	    	};
-	    	for(EmployeePayrollData employeePayrollData:arrayOfEmployeePayroll)
-	    	{
-	    		Response response=addEmployeeToJsonServer(employeePayrollData);
-	    		int HTTPstatusCode=response.getStatusCode();
-	    		Assert.assertEquals(201,HTTPstatusCode);
-	    		employeePayrollData=new Gson().fromJson(response.asString(),EmployeePayrollData.class);
-	        	employeePayrollService.addEmployeeToPayrollUsingRestServices(employeePayrollData);
-	    	}
-	    	long entries=employeePayrollService.countRestEntries();
-	    	Assert.assertEquals(7,entries);
+	    	employeePayrollService.updateEmployeeSalaryUsingRestServices("Rahul Verma",1000000.0);
+	    	EmployeePayrollData employeePayrollData=employeePayrollService.getEmployeePayrollData("Rahul Verma");
+	    	String empJson=new Gson().toJson(employeePayrollData);
+	    	RequestSpecification request=RestAssured.given();
+			request.header("Content-Type","application/json");
+			request.body(empJson);
+			Response response=request.put("/employees/"+employeePayrollData.getId());
+			int statusCode=response.getStatusCode();
+			Assert.assertEquals(200, statusCode);
 	    }
 }

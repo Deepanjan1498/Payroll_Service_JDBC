@@ -160,4 +160,11 @@ public class EmployeePayrollService {
 		System.out.println(this.employeePayrollList);
 	}
 
+	public void updateEmployeeSalaryUsingRestServices(String name, double salary) {
+		// TODO Auto-generated method stub
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+		if (employeePayrollData != null)
+			employeePayrollData.setSalary(salary);
+	}
+
 }
