@@ -39,7 +39,7 @@ public class EmployeePayrollServiceTest {
 		EmployeePayrollRestService employeePayrollRestService;
 		employeePayrollRestService = new EmployeePayrollRestService(Arrays.asList(arrayOfEmployees));
 		long entries = employeePayrollRestService.countRestEntries();
-		Assert.assertEquals(2, entries);
+		Assert.assertEquals(8, entries);
 	}
 
 	@Test
@@ -196,7 +196,8 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
 		EmployeePayrollData[] arrayOfEmployeePayroll = { new EmployeePayrollData(5, "Sumit", 600000.0),
 				new EmployeePayrollData(6, "Rahul Verma", 800000.0),
-				new EmployeePayrollData(7, "Ayush Tyagi", 900000.0) };
+				new EmployeePayrollData(7, "Ayush Tyagi", 900000.0),
+				new EmployeePayrollData(8, "Shivshankar", 200000.0)};
 		for (EmployeePayrollData employeePayrollData : arrayOfEmployeePayroll) {
 			Response response = addEmployeeToJsonServer(employeePayrollData);
 			int HTTPstatusCode = response.getStatusCode();
