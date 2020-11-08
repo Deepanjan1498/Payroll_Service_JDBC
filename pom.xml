@@ -31,17 +31,17 @@
     <artifactId>mysql-connector-java</artifactId>
     <version>8.0.22</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
 <dependency>
     <groupId>io.rest-assured</groupId>
-    <artifactId>json-path</artifactId>
+    <artifactId>rest-assured</artifactId>
     <version>4.3.1</version>
+    <scope>test</scope>
 </dependency>
-<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 <dependency>
-    <groupId>com.googlecode.json-simple</groupId>
-    <artifactId>json-simple</artifactId>
-    <version>1.1</version>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
 </dependency>
 
   </dependencies>
